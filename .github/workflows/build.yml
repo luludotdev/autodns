@@ -1,0 +1,66 @@
+name: Golang Build
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Linux packages
+        run: sudo apt update && sudo apt install -y --no-install-recommends gcc-mingw-w64
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: '1.14.x'
+      - name: Cache Go Modules
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Build for Linux
+        run: GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -ldflags="-s -w -X main.sha1ver=`git rev-parse HEAD` -X main.gitTag=`git tag --points-at HEAD` -X main.buildTime=`date +%Y-%m-%dT%T%z`" -o ./autodns -v .
+      - name: Build for Windows
+        run: GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1 go build -ldflags="-s -w -X main.sha1ver=`git rev-parse HEAD` -X main.gitTag=`git tag --points-at HEAD` -X main.buildTime=`date +%Y-%m-%dT%T%z`" -o ./autodns.exe -v .
+      - name: Upload Linux Binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: autodns
+          path: ./autodns
+      - name: Upload Windows Binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: autodns.exe
+          path: ./autodns.exe
+      - name: Create Release
+        if: contains(github.ref, 'refs/tags/') == true
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: AutoDNS ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        if: contains(github.ref, 'refs/tags/') == true
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./autodns
+          asset_name: autodns
+          asset_content_type: application/octet-stream
+      - name: Upload Release Asset
+        if: contains(github.ref, 'refs/tags/') == true
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./autodns.exe
+          asset_name: autodns.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
