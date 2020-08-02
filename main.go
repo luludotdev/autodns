@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
+	"time"
 
 	"github.com/libdns/cloudflare"
 	"github.com/lolPants/flaggs"
@@ -44,4 +47,46 @@ func main() {
 	}
 
 	cf.APIToken = apiToken
+
+	v4task, v6task := getAddress("v4"), getAddress("v6")
+	v4ptr, v6ptr := <-v4task, <-v6task
+
+	fmt.Printf("%+v\t%+v\n", v4ptr, v6ptr)
+}
+
+func getAddress(subdomain string) <-chan *string {
+	r := make(chan *string)
+
+	go func() {
+		defer close(r)
+
+		var client = &http.Client{
+			Timeout: time.Second * 10,
+		}
+
+		url := "https://" + subdomain + ".ipv6-test.com/api/myip.php"
+		resp, err := client.Get(url)
+		if err != nil {
+			r <- nil
+			return
+		}
+
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			r <- nil
+			return
+		}
+
+		bodyBytes, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			r <- nil
+			return
+		}
+
+		str := string(bodyBytes)
+		r <- &str
+	}()
+
+	return r
 }
