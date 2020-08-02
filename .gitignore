@@ -1,0 +1,9 @@
+# VSCode
+.vscode
+
+# Binaries
+build/
+*.exe
+
+# macOS Info
+.ds_store
