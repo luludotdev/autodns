@@ -1,13 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/bobesa/go-domain-util/domainutil"
 	"github.com/libdns/cloudflare"
+	"github.com/libdns/libdns"
 	"github.com/lolPants/flaggs"
 )
 
@@ -51,7 +54,38 @@ func main() {
 	v4task, v6task := getAddress("v4"), getAddress("v6")
 	v4ptr, v6ptr := <-v4task, <-v6task
 
-	fmt.Printf("%+v\t%+v\n", v4ptr, v6ptr)
+	records := make([]libdns.Record, 0)
+
+	if v4ptr != nil {
+		r := libdns.Record{
+			Type:  "A",
+			Name:  record,
+			Value: *v4ptr,
+		}
+
+		records = append(records, r)
+	}
+
+	if v6ptr != nil {
+		r := libdns.Record{
+			Type:  "AAAA",
+			Name:  record,
+			Value: *v6ptr,
+		}
+
+		records = append(records, r)
+	}
+
+	ctx := context.Background()
+	domain := domainutil.Domain(record)
+
+	_, err := cf.SetRecords(ctx, domain, records)
+	if err != nil {
+		fmt.Println("Failed to set DNS Records!")
+		fmt.Println(err)
+
+		os.Exit(1)
+	}
 }
 
 func getAddress(subdomain string) <-chan *string {

@@ -1,6 +1,12 @@
+github.com/bobesa/go-domain-util v0.0.0-20190911083921-4033b5f7dd89 h1:2pkAuIM8OF1fy4ToFpMnI4oE+VeUNRbGrpSLKshK0oQ=
+github.com/bobesa/go-domain-util v0.0.0-20190911083921-4033b5f7dd89/go.mod h1:/09nEjna1UMoasyyQDhOrIn8hi2v2kiJglPWed1idck=
 github.com/libdns/cloudflare v0.0.0-20200528144945-97886e7873b1 h1:Jx0AoxHtj2NMwxHByM8VmcqvGMa3lEu28xVDArhSi7E=
 github.com/libdns/cloudflare v0.0.0-20200528144945-97886e7873b1/go.mod h1:A9MqNmkZcd81mY7JsNysmgmj5O9vlRjfDVaNw4j9pjU=
 github.com/libdns/libdns v0.0.0-20200430163404-ee2c42449104 h1:0/ke5mYkUWUVjIYvYwRBHIi2FultGNcMAGjBT3HZADo=
 github.com/libdns/libdns v0.0.0-20200430163404-ee2c42449104/go.mod h1:yQCXzk1lEZmmCPa857bnk4TsOiqYasqpyOEeSObbb40=
 github.com/lolPants/flaggs v0.0.0-20190728002823-c3de08aa0dc4 h1:cSJocQ2sX1L1q/rskl4l+nvsCoKVR1achfVMWAsCZPU=
 github.com/lolPants/flaggs v0.0.0-20190728002823-c3de08aa0dc4/go.mod h1:NwlzENqo75Qp1ldWR0UFAaAFjhk1BzL5Wk4iPDnl7P4=
+golang.org/x/net v0.0.0-20180811021610-c39426892332 h1:efGso+ep0DjyCBJPjvoz0HI6UldX4Md2F1rZFe1ir0E=
+golang.org/x/net v0.0.0-20180811021610-c39426892332/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
+golang.org/x/text v0.3.0 h1:g61tztE5qeGQ89tm6NTjjM9VPIm088od1l6aSorWRWg=
+golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
