@@ -25,7 +25,7 @@ var (
 			if err != nil {
 				logger.Stderr.Printf(1, "failed to get latest release, error: `%s`\n", err.Error())
 				logger.Stderr.Println(0, "Failed to check for new versions!")
-				logger.Stderr.Println(0, "Visit "+constants.GitHubURL+"/releases to check for new releases manually.")
+				logger.Stderr.Println(0, constants.NewReleasesMessage)
 
 				os.Exit(1)
 			}
@@ -34,7 +34,7 @@ var (
 			if err != nil {
 				logger.Stderr.Printf(1, "failed to coerce versions to semver, error: `%s`\n", err.Error())
 				logger.Stderr.Println(0, "Failed to check for new versions!")
-				logger.Stderr.Println(0, "Visit "+constants.GitHubURL+"/releases to check for new releases manually.")
+				logger.Stderr.Println(0, constants.NewReleasesMessage)
 
 				os.Exit(1)
 			}
@@ -47,7 +47,7 @@ var (
 			asset := release.GetAsset()
 			if asset == nil {
 				logger.Stderr.Println(0, "Failed to resolve download for your platform!")
-				logger.Stderr.Println(0, "Visit "+constants.GitHubURL+"/releases to check for new releases manually.")
+				logger.Stderr.Println(0, constants.NewReleasesMessage)
 
 				os.Exit(1)
 			}
@@ -56,7 +56,7 @@ var (
 			if err != nil {
 				logger.Stderr.Printf(1, "asset download failed, error: `%s`\n", err.Error())
 				logger.Stderr.Println(0, "Failed to download latest version!")
-				logger.Stderr.Println(0, "Visit "+constants.GitHubURL+"/releases to check for new releases manually.")
+				logger.Stderr.Println(0, constants.NewReleasesMessage)
 
 				os.Exit(1)
 			}
@@ -66,7 +66,7 @@ var (
 			if err != nil {
 				logger.Stderr.Printf(1, "binary replace failed, error: `%s`\n", err.Error())
 				logger.Stderr.Println(0, "Failed to replace current binary!")
-				logger.Stderr.Println(0, "Visit "+constants.GitHubURL+"/releases to check for new releases manually.")
+				logger.Stderr.Println(0, constants.NewReleasesMessage)
 
 				os.Exit(1)
 			}

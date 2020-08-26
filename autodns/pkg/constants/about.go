@@ -9,4 +9,7 @@ const (
 
 	// GitHubURL is the URL for the package repo
 	GitHubURL = "https://github.com/" + RepoSlug
+
+	// NewReleasesMessage is shown when automatically upgrading fails
+	NewReleasesMessage = "Visit " + GitHubURL + "/releases to check for new releases manually."
 )
