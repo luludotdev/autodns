@@ -12,6 +12,7 @@ import (
 
 // Fetch gets a GitHub release for a specific tag
 func Fetch(tag string) (*Release, error) {
+	logger.Stdout.Println(2, "fetching release info for tag: `"+tag+"`")
 	url := "https://api.github.com/repos/" + constants.RepoSlug + "/releases/" + tag
 	resp, err := client.Get(url)
 	if err != nil {

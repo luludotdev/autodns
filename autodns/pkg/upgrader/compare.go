@@ -5,10 +5,12 @@ import (
 
 	"github.com/Masterminds/semver"
 	"github.com/lolPants/autodns/autodns/pkg/constants"
+	"github.com/lolPants/autodns/autodns/pkg/logger"
 )
 
 // IsDev checks if a given version is in dev mode
 func IsDev(version string) bool {
+	logger.Stdout.Println(2, "checking if current version is a dev build")
 	if version == "" {
 		return true
 	}
@@ -21,25 +23,24 @@ func IsDev(version string) bool {
 }
 
 // NeedsUpgrade calculates if the current version needs upgrading
-func NeedsUpgrade(version string) (bool, error) {
+func NeedsUpgrade(version string, latest string) (bool, error) {
+	logger.Stdout.Println(2, "checking if upgrade is needed")
 	if IsDev(version) {
+		logger.Stdout.Println(2, "is dev, upgrade not needed")
 		return false, nil
 	}
 
-	release, err := Latest()
+	latestVer, err := semver.NewVersion(strings.TrimLeft(latest, "v"))
 	if err != nil {
+		logger.Stderr.Printf(1, "failed to parse latest version, error: `%s`\n", err.Error())
 		return false, err
 	}
 
-	latest, err := semver.NewVersion(strings.TrimLeft(release.Tag, "v"))
+	currentVer, err := semver.NewVersion(strings.TrimLeft(version, "v"))
 	if err != nil {
+		logger.Stderr.Printf(1, "failed to parse current version, error: `%s`\n", err.Error())
 		return false, err
 	}
 
-	current, err := semver.NewVersion(strings.TrimLeft(version, "v"))
-	if err != nil {
-		return false, err
-	}
-
-	return latest.GreaterThan(current), nil
+	return latestVer.GreaterThan(currentVer), nil
 }
