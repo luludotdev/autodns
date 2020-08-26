@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"runtime"
 
+	"github.com/lolPants/autodns/autodns/pkg/constants"
 	"github.com/spf13/cobra"
 )
 
 var (
-	sha1ver   = "unknown"
+	sha1ver   = constants.VersionUnknown
 	gitTag    string
 	buildTime string
 )
@@ -37,7 +38,7 @@ func printVersionInfo() {
 
 	var version string
 	if gitTag == "" {
-		version = "dev"
+		version = constants.VersionDev
 	} else {
 		version = gitTag
 	}
