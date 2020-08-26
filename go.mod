@@ -8,7 +8,6 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/libdns/cloudflare v0.0.0-20200528144945-97886e7873b1
 	github.com/libdns/libdns v0.0.0-20200430163404-ee2c42449104
-	github.com/lolPants/flaggs v0.0.0-20190728002823-c3de08aa0dc4
 	github.com/magiconair/properties v1.8.2 // indirect
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/pelletier/go-toml v1.8.0 // indirect
