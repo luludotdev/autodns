@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/libdns/cloudflare"
 	"github.com/lolPants/autodns/autodns/pkg/constants"
 	"github.com/lolPants/autodns/autodns/pkg/dnstools"
 	"github.com/lolPants/autodns/autodns/pkg/iptools"
+	"github.com/lolPants/autodns/autodns/pkg/logger"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -23,13 +23,13 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			record := viper.GetString("record")
 			if record == "" {
-				fmt.Println(constants.ErrorMissingRecord)
+				logger.Stderr.Println(0, constants.ErrorMissingRecord)
 				os.Exit(1)
 			}
 
 			token := viper.GetString("cf-token")
 			if token == "" {
-				fmt.Println(constants.ErrorMissingToken(cfTokenEnv))
+				logger.Stderr.Println(0, constants.ErrorMissingToken(cfTokenEnv))
 				os.Exit(1)
 			}
 
@@ -39,13 +39,13 @@ var (
 
 			ip := <-iptools.Lookup()
 			if ip.Error != nil {
-				fmt.Println(constants.ErrorIPLookupFailed)
+				logger.Stderr.Println(0, constants.ErrorIPLookupFailed)
 				os.Exit(1)
 			}
 
 			err := dnstools.SetRecords(cf, ip, record)
 			if err != nil {
-				fmt.Println(constants.ErrorRecordSetFailed)
+				logger.Stderr.Println(0, constants.ErrorRecordSetFailed)
 				os.Exit(1)
 			}
 		},
