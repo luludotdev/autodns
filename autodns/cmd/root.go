@@ -3,6 +3,7 @@ package cmd
 import (
 	"os"
 
+	"github.com/lolPants/autodns/autodns/pkg/constants"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -12,7 +13,7 @@ var (
 		Use:   "autodns",
 		Short: "A simple tool to automatically update DNS records for a server.",
 		Long: "A simple tool to automatically update DNS records for a server.\n" +
-			"More information is available at https://github.com/lolPants/autodns",
+			"More information is available at " + constants.GitHubURL,
 		Run: func(cmd *cobra.Command, args []string) {
 			if viper.GetBool("version") {
 				versionCommand.Run(cmd, args)
