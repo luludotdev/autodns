@@ -4,8 +4,8 @@ package iptools
 type Result struct {
 	Error error
 
-	v4 *string
-	v6 *string
+	V4 *string
+	V6 *string
 }
 
 // Lookup the current machine's public IPv4 and IPv6 address
@@ -33,8 +33,8 @@ func Lookup() <-chan *Result {
 			return
 		}
 
-		res.v4 = v4ptr.Data
-		res.v6 = v6ptr.Data
+		res.V4 = v4ptr.Data
+		res.V6 = v6ptr.Data
 
 		r <- res
 	}()
