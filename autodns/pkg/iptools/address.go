@@ -29,7 +29,7 @@ func getAddress(subdomain string) <-chan *result {
 		defer close(r)
 		res := &result{}
 
-		logger.Stdout.Println(2, "resolving IP"+subdomain+" address...")
+		logger.Stdout.Println(2, "resolving IP"+subdomain+" address")
 		url := "https://" + subdomain + ".ipv6-test.com/api/myip.php"
 		resp, err := client.Get(url)
 
