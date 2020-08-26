@@ -32,6 +32,7 @@ jobs:
           BUILD_ARGS="-v -trimpath -ldflags=\"${BUILD_FLAGS}\""
 
           echo ::set-output name=build_args::${BUILD_ARGS}
+          echo ::set-output name=tag::${TAG}
           mkdir build
       - name: Build
         env:
@@ -50,5 +51,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: AutoDNS ${{ github.ref }}
+          name: AutoDNS ${{ steps.prepare.outputs.tag }}
           files: ./build/*
