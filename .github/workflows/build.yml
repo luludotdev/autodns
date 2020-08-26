@@ -9,30 +9,48 @@ jobs:
       - name: Install Linux packages
         run: sudo apt update && sudo apt install -y --no-install-recommends gcc-mingw-w64
       - name: Install Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2
         with:
           go-version: '1.15.x'
       - name: Cache Go Modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
+      - name: Prepare Build
+        id: prepare
+        run: |
+          VERSION=`git rev-parse --short HEAD`
+          TAG=`git tag --points-at HEAD`
+          BUILD_TIME=`date +%Y-%m-%dT%T%z`
+
+          BUILD_FLAGS="-s -w -X main.sha1ver=${VERSION} -X main.gitTag=${TAG} -X main.buildTime=${BUILD_TIME}"
+          BUILD_ARGS="-v -trimpath -ldflags=\"${BUILD_FLAGS}\""
+
+          echo ::set-output name=build_args::${BUILD_ARGS}
+          echo ::set-output name=build_flags::${BUILD_FLAGS}
       - name: Build for Linux
-        run: GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -ldflags="-s -w -X main.sha1ver=`git rev-parse HEAD` -X main.gitTag=`git tag --points-at HEAD` -X main.buildTime=`date +%Y-%m-%dT%T%z`" -o ./autodns -v .
+        run: >
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=1
+          go build ${{ steps.prepare.outputs.build_args }}
+          -o ./build/autodns ./autodns
       - name: Build for Windows
-        run: GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1 go build -ldflags="-s -w -X main.sha1ver=`git rev-parse HEAD` -X main.gitTag=`git tag --points-at HEAD` -X main.buildTime=`date +%Y-%m-%dT%T%z`" -o ./autodns.exe -v .
+        run: >
+          GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1
+          go build ${{ steps.prepare.outputs.build_args }}
+          -o ./build/autodns.exe ./autodns
       - name: Upload Linux Binary
         uses: actions/upload-artifact@v2
         with:
           name: autodns
-          path: ./autodns
+          path: ./build/autodns
       - name: Upload Windows Binary
         uses: actions/upload-artifact@v2
         with:
           name: autodns.exe
-          path: ./autodns.exe
+          path: ./build/autodns.exe
       - name: Create Release
         if: contains(github.ref, 'refs/tags/') == true
         id: create_release
@@ -51,7 +69,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./autodns
+          asset_path: ./build/autodns
           asset_name: autodns
           asset_content_type: application/octet-stream
       - name: Upload Release Asset
@@ -61,6 +79,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./autodns.exe
+          asset_path: ./build/autodns.exe
           asset_name: autodns.exe
           asset_content_type: application/vnd.microsoft.portable-executable
