@@ -1,22 +1,32 @@
-package main
+package cmd
 
 import (
 	"fmt"
 	"runtime"
+
+	"github.com/spf13/cobra"
 )
 
 var (
 	sha1ver   = "unknown"
 	gitTag    string
 	buildTime string
-
-	printVersion bool
 )
 
 type versionRow struct {
 	label string
 	value string
 }
+
+var (
+	versionCommand = &cobra.Command{
+		Use:   "version",
+		Short: "Print version information",
+		Run: func(cmd *cobra.Command, args []string) {
+			printVersionInfo()
+		},
+	}
+)
 
 func printVersionInfo() {
 	versionRows := make([]versionRow, 0)
@@ -51,4 +61,8 @@ func printVersionInfo() {
 	for _, r := range versionRows {
 		fmt.Printf("%*s %s\n", widest*-1, r.label, r.value)
 	}
+}
+
+func init() {
+	rootCmd.AddCommand(versionCommand)
 }
