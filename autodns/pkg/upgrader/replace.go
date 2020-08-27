@@ -42,6 +42,12 @@ func replaceLinux(data io.Reader, path string) error {
 	defer out.Close()
 	io.Copy(out, data)
 
+	logger.Stdout.Println(2, "changing binary permissions to 755")
+	err = os.Chmod(path, 0755)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
