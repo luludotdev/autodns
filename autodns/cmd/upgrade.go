@@ -7,6 +7,7 @@ import (
 	"github.com/lolPants/autodns/autodns/pkg/logger"
 	"github.com/lolPants/autodns/autodns/pkg/upgrader"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -14,7 +15,7 @@ var (
 		Use:   "upgrade",
 		Short: "Upgrade autodns to the latest version",
 		Run: func(cmd *cobra.Command, args []string) {
-			if upgrader.IsDev(gitTag) {
+			if upgrader.IsDev(gitTag) && viper.GetBool("force-upgrade") == false {
 				logger.Stdout.Println(0, "You are running a dev build!")
 				logger.Stdout.Println(0, "Visit "+constants.GitHubURL+"/releases to download the latest release.")
 
@@ -78,6 +79,9 @@ var (
 
 func init() {
 	_ = upgrader.Cleanup()
+
+	upgradeCommand.Flags().BoolP("force", "f", false, "force upgrade on dev builds")
+	viper.BindPFlag("force-upgrade", upgradeCommand.Flags().Lookup("force"))
 
 	rootCmd.AddCommand(upgradeCommand)
 }
