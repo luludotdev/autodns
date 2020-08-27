@@ -20,7 +20,7 @@ Flags:
   -V, --version         print version
 ```
 
-Additionally, you can instead pass the API tokens using the `AUTODNS_{provider}_TOKEN` environment variables. Note that tokens passed using CLI flags take priority over environment variables. [See below](#providers) for a complete list.
+Additionally, you can instead pass the API tokens using the `AUTODNS_{provider}_TOKEN` environment variables. Note that tokens passed using CLI flags take priority over environment variables. [See below](#-providers) for a complete list.
 
 ### ⌛ Example with Crontab
 This example assumes you have installed AutoDNS into your `PATH`.
