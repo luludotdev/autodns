@@ -16,7 +16,7 @@ var (
 			"More information is available at " + constants.GitHubURL,
 		Run: func(cmd *cobra.Command, args []string) {
 			if viper.GetBool("version") {
-				versionCommand.Run(cmd, args)
+				versionCmd.Run(cmd, args)
 				os.Exit(0)
 			}
 

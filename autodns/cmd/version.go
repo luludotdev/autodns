@@ -20,7 +20,7 @@ type versionRow struct {
 }
 
 var (
-	versionCommand = &cobra.Command{
+	versionCmd = &cobra.Command{
 		Use:   "version",
 		Short: "Print version information",
 		Run: func(cmd *cobra.Command, args []string) {
@@ -65,5 +65,5 @@ func printVersionInfo() {
 }
 
 func init() {
-	rootCmd.AddCommand(versionCommand)
+	rootCmd.AddCommand(versionCmd)
 }

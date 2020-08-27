@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	upgradeCommand = &cobra.Command{
+	upgradeCmd = &cobra.Command{
 		Use:   "upgrade",
 		Short: "Upgrade autodns to the latest version",
 		Run: func(cmd *cobra.Command, args []string) {
@@ -80,8 +80,8 @@ var (
 func init() {
 	_ = upgrader.Cleanup()
 
-	upgradeCommand.Flags().BoolP("force", "f", false, "force upgrade on dev builds")
-	viper.BindPFlag("force-upgrade", upgradeCommand.Flags().Lookup("force"))
+	upgradeCmd.Flags().BoolP("force", "f", false, "force upgrade on dev builds")
+	viper.BindPFlag("force-upgrade", upgradeCmd.Flags().Lookup("force"))
 
-	rootCmd.AddCommand(upgradeCommand)
+	rootCmd.AddCommand(upgradeCmd)
 }

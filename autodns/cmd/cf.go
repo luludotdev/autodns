@@ -17,7 +17,7 @@ const (
 )
 
 var (
-	cfCommand = &cobra.Command{
+	cfCmd = &cobra.Command{
 		Use:   "cf",
 		Short: "Use CloudFlare DNS provider",
 		Run: func(cmd *cobra.Command, args []string) {
@@ -53,12 +53,12 @@ var (
 )
 
 func init() {
-	cfCommand.Flags().StringP("token", "T", "", "CloudFlare authentication token")
-	viper.BindPFlag("cf-token", cfCommand.Flags().Lookup("token"))
+	cfCmd.Flags().StringP("token", "T", "", "CloudFlare authentication token")
+	viper.BindPFlag("cf-token", cfCmd.Flags().Lookup("token"))
 	viper.BindEnv("cf-token", "AUTODNS_CF_TOKEN")
 
-	cfCommand.Flags().StringP("record", "r", "", "DNS record")
-	viper.BindPFlag("record", cfCommand.Flags().Lookup("record"))
+	cfCmd.Flags().StringP("record", "r", "", "DNS record")
+	viper.BindPFlag("record", cfCmd.Flags().Lookup("record"))
 
-	rootCmd.AddCommand(cfCommand)
+	rootCmd.AddCommand(cfCmd)
 }
