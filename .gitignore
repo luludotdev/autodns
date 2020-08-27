@@ -4,6 +4,7 @@
 # Binaries
 build/
 *.exe
+*-old
 
 # macOS Info
 .ds_store
