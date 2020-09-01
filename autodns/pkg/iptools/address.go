@@ -34,7 +34,7 @@ func getAddress(subdomain string) <-chan *result {
 		resp, err := client.Get(url)
 
 		if err != nil {
-			logger.Stderr.Println(1, "failed to resolve IP"+subdomain+" address!")
+			logger.Stderr.Printf(1, "failed to resolve IP"+subdomain+" address, error: `%s`\n", err.Error())
 			if strings.Contains(err.Error(), "no such host") == false {
 				res.Error = err
 			}
@@ -57,7 +57,7 @@ func getAddress(subdomain string) <-chan *result {
 
 		bodyBytes, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			logger.Stderr.Println(1, "failed to read IP"+subdomain+" body!")
+			logger.Stderr.Printf(1, "failed to read IP"+subdomain+" body, error: `%s`\n", err.Error())
 			res.Error = err
 			r <- res
 
