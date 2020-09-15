@@ -1,9 +1,7 @@
 package upgrader
 
 import (
-	"strings"
-
-	"github.com/Masterminds/semver"
+	"github.com/Masterminds/semver/v3"
 	"github.com/lolPants/autodns/autodns/pkg/constants"
 	"github.com/lolPants/autodns/autodns/pkg/logger"
 	"github.com/spf13/viper"
@@ -38,13 +36,13 @@ func NeedsUpgrade(version string, latest string) (bool, error) {
 		return false, nil
 	}
 
-	latestVer, err := semver.NewVersion(strings.TrimLeft(latest, "v"))
+	latestVer, err := semver.NewVersion(latest)
 	if err != nil {
 		logger.Stderr.Printf(1, "failed to parse latest version, error: `%s`\n", err.Error())
 		return false, err
 	}
 
-	currentVer, err := semver.NewVersion(strings.TrimLeft(version, "v"))
+	currentVer, err := semver.NewVersion(version)
 	if err != nil {
 		logger.Stderr.Printf(1, "failed to parse current version, error: `%s`\n", err.Error())
 		return false, err

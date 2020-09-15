@@ -3,7 +3,7 @@ module github.com/lolPants/autodns
 go 1.14
 
 require (
-	github.com/Masterminds/semver v1.5.0
+	github.com/Masterminds/semver/v3 v3.1.0
 	github.com/bobesa/go-domain-util v0.0.0-20190911083921-4033b5f7dd89
 	github.com/libdns/cloudflare v0.0.0-20200528144945-97886e7873b1
 	github.com/libdns/libdns v0.1.0
