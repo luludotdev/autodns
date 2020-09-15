@@ -13,7 +13,7 @@ import (
 var (
 	upgradeCmd = &cobra.Command{
 		Use:   "upgrade",
-		Short: "Upgrade autodns to the latest version",
+		Short: "Upgrade AutoDNS to the latest version",
 		Run: func(cmd *cobra.Command, args []string) {
 			if upgrader.IsDev(gitTag) && viper.GetBool("force-upgrade") == false {
 				logger.Stdout.Println(0, "You are running a dev build!")
