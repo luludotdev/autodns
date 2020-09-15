@@ -11,13 +11,17 @@ AutoDNS is designed to be used in automated environments such as inside `cron`. 
 ```
 Available Commands:
   cf          Use CloudFlare DNS provider
-  help        Help about any command     
+  completion  Generate completion script
+  help        Help about any command
+  upgrade     Upgrade AutoDNS to the latest version
   version     Print version information
 
 Flags:
   -h, --help            help for autodns
   -v, --verbose count   verbose output
   -V, --version         print version
+
+Use "autodns [command] --help" for more information about a command.
 ```
 
 Additionally, you can instead pass the API tokens using the `AUTODNS_{provider}_TOKEN` environment variables. Note that tokens passed using CLI flags take priority over environment variables. [See below](#-providers) for a complete list.
