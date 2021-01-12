@@ -17,7 +17,10 @@ jobs:
       - name: Cache Go Modules
         uses: actions/cache@v2
         with:
-          path: ~/go/pkg/mod
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+            '%LocalAppData%\go-build'
           key: ${{ runner.os }}-go${{ matrix.go }}-${{ matrix.goos }}-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go${{ matrix.go }}-${{ matrix.goos }}
