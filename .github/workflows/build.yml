@@ -31,9 +31,8 @@ jobs:
           GO_PKG=`head -n 1 go.mod | awk '{print $2}'`
           VERSION=`git rev-parse --short HEAD`
           TAG=`git tag --points-at HEAD`
-          BUILD_TIME=`date +%Y-%m-%dT%T%z`
 
-          BUILD_FLAGS="-s -w -X ${GO_PKG}/autodns/cmd.sha1ver=${VERSION} -X ${GO_PKG}/autodns/cmd.gitTag=${TAG} -X ${GO_PKG}/autodns/cmd.buildTime=${BUILD_TIME}"
+          BUILD_FLAGS="-s -w -X ${GO_PKG}/autodns/cmd.sha1ver=${VERSION} -X ${GO_PKG}/autodns/cmd.gitTag=${TAG}"
           BUILD_ARGS="-v -trimpath -ldflags=\"${BUILD_FLAGS}\""
 
           echo ::set-output name=build_args::${BUILD_ARGS}

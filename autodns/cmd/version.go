@@ -9,9 +9,8 @@ import (
 )
 
 var (
-	sha1ver   = constants.VersionUnknown
-	gitTag    string
-	buildTime string
+	sha1ver = constants.VersionUnknown
+	gitTag  string
 )
 
 type versionRow struct {
@@ -46,10 +45,6 @@ func printVersionInfo() {
 	addRow("Version", version)
 	addRow("Git Hash", sha1ver)
 	addRow("Go Version", runtime.Version())
-
-	if buildTime != "" {
-		addRow("Build Time", buildTime)
-	}
 
 	var widest int
 	for _, r := range versionRows {
