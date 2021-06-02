@@ -15,7 +15,7 @@ var (
 		Use:   "upgrade",
 		Short: "Upgrade AutoDNS to the latest version",
 		Run: func(cmd *cobra.Command, args []string) {
-			if upgrader.IsDev(gitTag) && viper.GetBool("force-upgrade") == false {
+			if upgrader.IsDev(gitTag) && !viper.GetBool("force-upgrade") {
 				logger.Stdout.Println(0, "You are running a dev build!")
 				logger.Stdout.Println(0, "Visit "+constants.GitHubURL+"/releases to download the latest release.")
 
@@ -40,7 +40,7 @@ var (
 				os.Exit(1)
 			}
 
-			if needsUpgrade == false {
+			if !needsUpgrade {
 				logger.Stdout.Println(0, "You are running the latest version!")
 				os.Exit(0)
 			}
