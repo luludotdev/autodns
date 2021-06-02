@@ -5,8 +5,9 @@ jobs:
   build:
     strategy:
       matrix:
-        goos: ['linux', 'windows']
-        go: ['1.15']
+        go: ['1.16']
+        goos: ['linux']
+        goarch: ['amd64']
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -21,9 +22,9 @@ jobs:
             ~/go/pkg/mod
             ~/.cache/go-build
             '%LocalAppData%\go-build'
-          key: ${{ runner.os }}-go${{ matrix.go }}-${{ matrix.goos }}-${{ hashFiles('**/go.sum') }}
+          key: ${{ runner.os }}-go${{ matrix.go }}-${{ matrix.goos }}-${{ matrix.goarch }}-${{ hashFiles('**/go.sum') }}
           restore-keys: |
-            ${{ runner.os }}-go${{ matrix.go }}-${{ matrix.goos }}
+            ${{ runner.os }}-go${{ matrix.go }}-${{ matrix.goos }}-${{ matrix.goarch }}
       - name: Prepare Build
         id: prepare
         run: |
@@ -43,7 +44,7 @@ jobs:
         env:
           CGO_ENABLED: 0
           GOOS: ${{ matrix.goos }}
-          GOARCH: amd64
+          GOARCH: ${{ matrix.goarch }}
         run: go build ${{ steps.prepare.outputs.build_args }} -o ./build/ ./autodns
       - name: Upload Binary
         uses: actions/upload-artifact@v2
