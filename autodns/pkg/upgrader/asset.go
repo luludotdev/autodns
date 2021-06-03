@@ -19,11 +19,12 @@ func (r *Release) GetAsset() *ReleaseAsset {
 	}
 
 	for _, asset := range r.Assets {
-		if runtime.GOOS == "windows" && strings.Contains(asset.Name, ".exe") {
-			return &asset
+		arch := runtime.GOARCH
+		if arch != "linux" {
+			return nil
 		}
 
-		if runtime.GOOS == "linux" && (strings.Contains(asset.Name, ".exe") == false) {
+		if strings.Contains(asset.Name, arch) {
 			return &asset
 		}
 	}
