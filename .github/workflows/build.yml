@@ -44,7 +44,7 @@ jobs:
           CGO_ENABLED: 0
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
-        run: go build ${{ steps.prepare.outputs.build_args }} -o ./build/ ./autodns
+        run: go build ${{ steps.prepare.outputs.build_args }} -o ./build/autodns-${{ matrix.goos }}-${{ matrix.goarch }} ./autodns
       - name: Upload Binary
         uses: actions/upload-artifact@v2
         with:
