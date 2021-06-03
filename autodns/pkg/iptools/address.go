@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/lolPants/autodns/autodns/pkg/logger"
@@ -35,9 +34,7 @@ func getAddress(subdomain string) <-chan *result {
 
 		if err != nil {
 			logger.Stderr.Printf(1, "failed to resolve IP"+subdomain+" address, error: `%s`\n", err.Error())
-			if strings.Contains(err.Error(), "no such host") == false {
-				res.Error = err
-			}
+			res.Error = err
 
 			r <- res
 			return

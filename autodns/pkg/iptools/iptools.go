@@ -1,5 +1,9 @@
 package iptools
 
+import (
+	"errors"
+)
+
 // Result represents the result of an IP Lookup
 type Result struct {
 	Error error
@@ -19,15 +23,8 @@ func Lookup() <-chan *Result {
 		v4task, v6task := getAddress("v4"), getAddress("v6")
 		v4ptr, v6ptr := <-v4task, <-v6task
 
-		if v4ptr.Error != nil {
-			res.Error = v4ptr.Error
-			r <- res
-
-			return
-		}
-
-		if v6ptr.Error != nil {
-			res.Error = v6ptr.Error
+		if v4ptr.Data == nil && v6ptr.Data == nil {
+			res.Error = errors.New("both IPv4 and IPv6 cannot be found")
 			r <- res
 
 			return
